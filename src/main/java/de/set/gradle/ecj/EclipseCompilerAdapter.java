@@ -45,9 +45,8 @@ public class EclipseCompilerAdapter implements Compiler<JavaCompileSpec> {
       exec.args(shortenArgs(javaCompileSpec.getTempDir(), remainingArguments));
     });
 
-    if (result.getExitValue() != 0) {
-      throw new CompilationFailedException(result.getExitValue());
-    }
+    // throws an ExecException if the process exited with a non-zero exit value.
+    result.assertNormalExitValue();
 
     return () -> true;
   }
